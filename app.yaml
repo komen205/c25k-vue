@@ -1,2 +1,9 @@
 runtime: nodejs16
 service: c25k
+handlers:
+  - url: /
+    static_files: dist/index.html
+    upload: dist/index.html
+
+  - url: /
+    static_dir: dist
