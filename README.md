@@ -1,5 +1,7 @@
 # c25k
 
+Demo: https://c25k-dot-fabled-imagery-327618.nw.r.appspot.com/
+
 ## Project setup
 ```
 npm install
