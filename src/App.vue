@@ -1,16 +1,29 @@
 <template>
-  <HelloWorld/>
+  <keep-alive>
+    <component v-bind:is="currentTabComponent"></component>
+  </keep-alive>
+
+  <n-button type="info" v-on:click="currentTabComponent = 'Week1'">
+    Week 1
+  </n-button>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Week1 from "./components/Weeks/Week1.vue";
+import { NButton } from "naive-ui";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    Week1: Week1,
+    NButton,
+  },
+  data() {
+    return {
+      currentTabComponent: null,
+    };
+  },
+};
 </script>
 
 <style>

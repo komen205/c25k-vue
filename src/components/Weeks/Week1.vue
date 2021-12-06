@@ -6,16 +6,17 @@
     <h2>Time elapsed:</h2>
     {{ moment(timeElapsed).format("mm:ss") }}
 
-    <button v-on:click="startController">Start</button>
+    <n-button type="primary" v-on:click="startController">Start</n-button>
   </div>
 </template>
 
 <script>
 import moment from "moment";
+import { NButton } from "naive-ui";
 
 export default {
   name: "HelloWorld",
-  components: {},
+  components: {NButton},
   created: function () {
     this.moment = moment;
   },
