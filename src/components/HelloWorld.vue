@@ -1,20 +1,33 @@
 <template>
   <div class="hello">
-    {{ timeLeft }}
+    <h1>Current state:</h1>
+    {{ timeRemainingToEnd }}
     {{ status }}
+    <h2>Time elapsed:</h2>
+    {{ moment(timeElapsed).format("mm:ss") }}
+
     <button v-on:click="startController">Start</button>
   </div>
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
   name: "HelloWorld",
   components: {},
+  created: function () {
+    this.moment = moment;
+  },
+  mounted: function () {},
   data() {
     return {
       endTime: 0,
       timeLeft: 0,
+      timeRemainingToEnd: 0,
       duration: 25,
+      startTime: 0,
+      timeElapsed: 0,
       status: "none",
       arr: [
         { fn: this.run, args: 1 },
@@ -53,38 +66,38 @@ export default {
       this.status = "rest";
       this.startTimer(time);
     },
-    startTimer: function (time) {
-      const endTime = new Date();
-      endTime.setMinutes(endTime.getMinutes() + time);
-      const timer = setInterval(() => {
-        const distance = this.calculateDifference(endTime);
+    startTimer:  async function (durationTimerInMinutes) {
+      const interval = 1000;
+      const expected = moment();
+      expected.add(interval, "milliseconds");
+      expected.add(durationTimerInMinutes, "minutes");
 
-        if (distance < 0) {
+      //create acurate timer between two dates
+
+      const timer = setInterval(() => {
+        //calculate the difference between now and expected
+        const diff = moment.duration(expected.diff(moment()));
+
+        if (diff < 0) {
           clearInterval(timer);
           this.status = "none";
-          return;
         }
 
-        this.timeLeft = this.msToMMss(distance);
-      }, 1000);
+        //format diff to minutes:seconds
+        this.timeRemainingToEnd = moment.utc(diff.asMilliseconds()).format("mm:ss");
+      }, interval);
     },
     calculateDifference: function (endTime) {
       const date = new Date();
       return endTime.getTime() - date.getTime();
     },
-    msToMMss: function (duration) {
-      let minutes = Math.floor((duration / (1000 * 60)) % 60),
-        seconds = Math.floor((duration / 1000) % 60);
-
-      seconds = seconds < 10 ? "0" + seconds : seconds;
-      minutes = minutes < 10 ? "0" + minutes : minutes;
-
-      return `${minutes}  : ${seconds}`;
-    },
     startController: function () {
+      this.startTime = moment();
       const time = setInterval(() => {
+        this.timeElapsed = moment().diff(this.startTime);
         if (this.arr.length === 0) {
           console.log("Fim");
+          this.textToSpeech("Good job");
           clearInterval(time);
           return;
         }
@@ -93,8 +106,7 @@ export default {
           const { fn, args } = this.arr.shift();
           fn.apply(this, [args]);
         }
-        console.log(this.arr);
-      }, 900);
+      }, 1000);
     },
   },
 };
