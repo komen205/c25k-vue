@@ -1,11 +1,17 @@
 <template>
-  <keep-alive>
-    <component v-bind:is="currentTabComponent"></component>
-  </keep-alive>
-
-  <n-button type="info" v-on:click="currentTabComponent = 'Week1'">
-    Week 1
-  </n-button>
+  <div>
+    <keep-alive>
+      <component v-bind:is="currentTabComponent"></component>
+    </keep-alive>
+    <n-button
+      v-for="(week, idx) of weeks"
+      :key="idx"
+      type="info"
+      @click="currentTabComponent = week.component"
+    >
+      {{ week.name }}
+    </n-button>
+  </div>
 </template>
 
 <script>
@@ -15,11 +21,17 @@ import { NButton } from "naive-ui";
 export default {
   name: "App",
   components: {
-    Week1: Week1,
+    Week1,
     NButton,
   },
   data() {
     return {
+      weeks: [
+        {
+          name: "Week 1",
+          component: "Week1",
+        },
+      ],
       currentTabComponent: null,
     };
   },

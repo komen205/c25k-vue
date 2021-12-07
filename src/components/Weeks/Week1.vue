@@ -1,62 +1,52 @@
 <template>
   <div class="hello">
     <h1>Current state:</h1>
-    {{ timeRemainingToEnd }}
+    {{ timeRemainingToEndFormatted }}
     {{ status }}
     <h2>Time elapsed:</h2>
-    {{ moment(timeElapsed).format("mm:ss") }}
+    {{ timeElapsedFormatted }}
 
-    <n-button type="primary" v-on:click="startController">Start</n-button>
+    <Timer :scheduledTasks="scheduledTasks" />
   </div>
 </template>
 
 <script>
 import moment from "moment";
-import { NButton } from "naive-ui";
+import Timer from "../Timer.vue";
 
 export default {
-  name: "HelloWorld",
-  components: {NButton},
-  created: function () {
-    this.moment = moment;
+  name: "Week1",
+  components: {
+    Timer,
   },
-  mounted: function () {},
+  // created: function () { },
+  // mounted: function () { },
   data() {
     return {
-      endTime: 0,
-      timeLeft: 0,
       timeRemainingToEnd: 0,
-      duration: 25,
       startTime: 0,
       timeElapsed: 0,
       status: "none",
-      arr: [
-        { fn: this.run, args: 1 },
-        { fn: this.rest, args: 2 },
-        { fn: this.run, args: 1 },
-        { fn: this.rest, args: 2 },
-        { fn: this.run, args: 1 },
-        { fn: this.rest, args: 2 },
-        { fn: this.run, args: 1 },
-        { fn: this.rest, args: 2 },
-        { fn: this.run, args: 1 },
-        { fn: this.rest, args: 2 },
-        { fn: this.run, args: 1 },
-        { fn: this.rest, args: 2 },
-        { fn: this.run, args: 1 },
-        { fn: this.rest, args: 2 },
+      scheduledTasks: [
+        { fn: this.run.bind(this, 1) },
+        { fn: this.rest.bind(this, 2) },
+        { fn: this.run.bind(this, 1) },
+        { fn: this.rest.bind(this, 2) },
+        { fn: this.run.bind(this, 1) },
+        { fn: this.rest.bind(this, 2) },
+        { fn: this.run.bind(this, 1) },
+        { fn: this.rest.bind(this, 2) },
+        { fn: this.run.bind(this, 1) },
+        { fn: this.rest.bind(this, 2) },
+        { fn: this.run.bind(this, 1) },
+        { fn: this.rest.bind(this, 2) },
+        { fn: this.run.bind(this, 1) },
+        { fn: this.rest.bind(this, 2) },
       ],
+      moment,
     };
   },
   methods: {
-    textToSpeech(text) {
-      const msg = new SpeechSynthesisUtterance(text);
-      msg.volume = 1; // From 0 to 1
-      msg.rate = 1; // From 0.1 to 10
-      msg.pitch = 1; // From 0 to 2
-      msg.lang = "en";
-      window.speechSynthesis.speak(msg);
-    },
     run: function (time) {
       this.textToSpeech("Run");
       this.status = "run";
@@ -67,47 +57,13 @@ export default {
       this.status = "rest";
       this.startTimer(time);
     },
-    startTimer:  async function (durationTimerInMinutes) {
-      const interval = 1000;
-      const expected = moment();
-      expected.add(interval, "milliseconds");
-      expected.add(durationTimerInMinutes, "minutes");
-
-      //create acurate timer between two dates
-
-      const timer = setInterval(() => {
-        //calculate the difference between now and expected
-        const diff = moment.duration(expected.diff(moment()));
-
-        if (diff < 0) {
-          clearInterval(timer);
-          this.status = "none";
-        }
-
-        //format diff to minutes:seconds
-        this.timeRemainingToEnd = moment.utc(diff.asMilliseconds()).format("mm:ss");
-      }, interval);
+  },
+  computed: {
+    timeElapsedFormatted: function () {
+      return moment.utc(this.timeElapsed).format("mm:ss");
     },
-    calculateDifference: function (endTime) {
-      const date = new Date();
-      return endTime.getTime() - date.getTime();
-    },
-    startController: function () {
-      this.startTime = moment();
-      const time = setInterval(() => {
-        this.timeElapsed = moment().diff(this.startTime);
-        if (this.arr.length === 0) {
-          console.log("Fim");
-          this.textToSpeech("Good job");
-          clearInterval(time);
-          return;
-        }
-
-        if (this.status === "none") {
-          const { fn, args } = this.arr.shift();
-          fn.apply(this, [args]);
-        }
-      }, 1000);
+    timeRemainingToEndFormatted: function () {
+      return moment.utc(this.timeRemainingToEnd).format("mm:ss");
     },
   },
 };
