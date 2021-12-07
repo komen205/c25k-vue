@@ -17,20 +17,17 @@ export default {
   data() {
     return {
       scheduledTasks: [
-        { fn: "run", args: 1 },
+        { fn: "run", args: 2 },
         { fn: "rest", args: 2 },
-        { fn: "run", args: 1 },
+        { fn: "run", args: 2 },
         { fn: "rest", args: 2 },
-        { fn: "run", args: 1 },
+        { fn: "run", args: 2 },
         { fn: "rest", args: 2 },
-        { fn: "run", args: 1 },
+        { fn: "run", args: 2 },
         { fn: "rest", args: 2 },
-        { fn: "run", args: 1 },
+        { fn: "run", args: 2 },
         { fn: "rest", args: 2 },
-        { fn: "run", args: 1 },
-        { fn: "rest", args: 2 },
-        { fn: "run", args: 1 },
-        { fn: "rest", args: 2 },
+        { fn: "run", args: 2 },
       ],
     };
   },

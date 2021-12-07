@@ -1,17 +1,27 @@
 <template>
   <div>
-    <n-button type="primary" @click="startController">Start</n-button>
+    <div>
+      <h1>Current state:</h1>
+      {{ timeRemainingToEndFormatted }}
+      {{ status }}
+      <h2>Time elapsed:</h2>
+      {{ timeElapsedFormatted }}
+    </div>
+    <n-space justify="center">
+      <n-button type="primary" @click="startController">Start</n-button>
+    </n-space>
   </div>
 </template>
 
 <script>
 import moment from "moment";
-import { NButton } from "naive-ui";
+import { NButton, NSpace } from "naive-ui";
 
 export default {
   name: "Timer",
   components: {
     NButton,
+    NSpace,
     // Component here
   },
   // *----------------------- P r o p s ----------------------------------------------------------
@@ -19,12 +29,23 @@ export default {
   // *----------------------- D a t a -----------------------------------------------------------
   data() {
     return {
+      timeRemainingToEnd: 0,
+      startTime: 0,
+      timeElapsed: 0,
+      status: "none",
       moment,
       tasks: this.scheduledTasks,
     };
   },
   // *----------------------- C o m p u t e d ---------------------------------------------------
-  computed: {},
+  computed: {
+    timeElapsedFormatted: function () {
+      return moment.utc(this.timeElapsed).format("mm:ss");
+    },
+    timeRemainingToEndFormatted: function () {
+      return moment.utc(this.timeRemainingToEnd).format("mm:ss");
+    },
+  },
   // *----------------------- L i f e   c i r c l e ---------------------------------------------
   created() {},
   // *----------------------- M e t h o d s -----------------------------------------------------
@@ -37,14 +58,13 @@ export default {
       msg.lang = "en";
       window.speechSynthesis.speak(msg);
     },
-    startTimer: async function (durationTimerInMinutes) {
+    startTimer(durationTimerInMinutes) {
       const interval = 1000;
       const expected = moment();
       expected.add(interval, "milliseconds");
       expected.add(durationTimerInMinutes, "minutes");
 
       //create acurate timer between two dates
-
       const timer = setInterval(() => {
         //calculate the difference between now and expected
         const diff = moment.duration(expected.diff(moment()));
@@ -58,7 +78,7 @@ export default {
         this.timeRemainingToEnd = moment.utc(diff.asMilliseconds());
       }, interval);
     },
-    startController: function () {
+    startController() {
       this.startTime = moment();
       const time = setInterval(() => {
         this.timeElapsed = moment().diff(this.startTime);
@@ -68,13 +88,14 @@ export default {
           clearInterval(time);
           return;
         }
-
         if (this.status === "none") {
-          const { fn } = this.tasks.shift();
-          fn();
+          const { fn, args } = this.tasks.shift();
+          this.status = fn;
+          this.startTimer(args);
+          this.textToSpeech(fn);
         }
       }, 1000);
-    },
+    }
   },
   // *----------------------- W a t c h ---------------------------------------------------------
   watch: {},

@@ -1,28 +1,63 @@
 <template>
   <div>
+    <h1>C25K App</h1>
+    <h1 v-if="currentTabComponent !== null"> {{ currentTabComponent }} </h1>
+    <n-space v-if="currentTabComponent === null" justify="center">
+      <n-button
+        v-for="(week, idx) of weeks"
+        :key="idx"
+        type="info"
+        @click="currentTabComponent = week.component"
+      >
+        {{ week.name }}
+      </n-button>
+    </n-space>
+    <n-icon size="40px" v-else @click="currentTabComponent = null">
+      <arrow-back />
+    </n-icon>
+
     <keep-alive>
       <component v-bind:is="currentTabComponent"></component>
     </keep-alive>
-    <n-button
-      v-for="(week, idx) of weeks"
-      :key="idx"
-      type="info"
-      @click="currentTabComponent = week.component"
-    >
-      {{ week.name }}
-    </n-button>
+    <footer>
+      <n-grid :x-gap="12" :y-gap="8" :cols="1" padding="40px">
+        <n-grid-item>
+          <div>
+            <n-icon size="50">
+              <logo-github @click="openGitProject" />
+            </n-icon>
+          </div>
+        </n-grid-item>
+      </n-grid>
+    </footer>
   </div>
 </template>
 
 <script>
 import Week1 from "./components/Weeks/Week1.vue";
-import { NButton } from "naive-ui";
+import Week2 from "./components/Weeks/Week2.vue";
+import { ArrowBackIosTwotone as ArrowBack } from "@vicons/material";
+import { LogoGithub } from "@vicons/ionicons5";
+
+import { NButton, NSpace, NIcon, NGrid, NGridItem } from "naive-ui";
 
 export default {
   name: "App",
   components: {
     Week1,
+    Week2,
     NButton,
+    NSpace,
+    ArrowBack,
+    NIcon,
+    LogoGithub,
+    NGrid,
+    NGridItem,
+  },
+  methods: {
+    openGitProject() {
+      window.open("https://github.com/komen205/c25k-vue");
+    },
   },
   data() {
     return {
@@ -30,6 +65,10 @@ export default {
         {
           name: "Week 1",
           component: "Week1",
+        },
+        {
+          name: "Week 2",
+          component: "Week2",
         },
       ],
       currentTabComponent: null,
