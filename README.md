@@ -29,6 +29,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### Inspiration
 
-https://reddit.com/r/running
-http://www.c25k.com/
-https://play.google.com/store/apps/details?id=com.phe.couchto5K
+https://reddit.com/r/running <br>
+http://www.c25k.com/ <br>
+https://play.google.com/store/apps/details?id=com.phe.couchto5K <br>
