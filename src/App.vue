@@ -1,7 +1,17 @@
 <template>
   <div>
     <h1>C25K App</h1>
-    <h1 v-if="currentTabComponent !== null"> {{ currentTabComponent }} </h1>
+    <n-space align="center" justify="center">
+      <n-icon
+        size="40px"
+        v-if="currentTabComponent !== null"
+        @click="currentTabComponent = null"
+      >
+        <arrow-back />
+      </n-icon>
+      <h2>{{ currentTabComponent }}</h2>
+    </n-space>
+
     <n-space v-if="currentTabComponent === null" justify="center">
       <n-button
         v-for="(week, idx) of weeks"
@@ -12,9 +22,6 @@
         {{ week.name }}
       </n-button>
     </n-space>
-    <n-icon size="40px" v-else @click="currentTabComponent = null">
-      <arrow-back />
-    </n-icon>
 
     <keep-alive>
       <component v-bind:is="currentTabComponent"></component>
@@ -34,18 +41,28 @@
 </template>
 
 <script>
-import Week1 from "./components/Weeks/Week1.vue";
-import Week2 from "./components/Weeks/Week2.vue";
+import Week1 from "./components/Weeks/Week-1.vue";
+import Week2 from "./components/Weeks/Week-2.vue";
+import Week3 from "./components/Weeks/Week-3.vue";
 import { ArrowBackIosTwotone as ArrowBack } from "@vicons/material";
 import { LogoGithub } from "@vicons/ionicons5";
 
-import { NButton, NSpace, NIcon, NGrid, NGridItem } from "naive-ui";
+import {
+  NButton,
+  NSpace,
+  NIcon,
+  NGrid,
+  NGridItem,
+  NLayout,
+  NLayoutHeader,
+} from "naive-ui";
 
 export default {
   name: "App",
   components: {
     Week1,
     Week2,
+    Week3,
     NButton,
     NSpace,
     ArrowBack,
@@ -53,6 +70,8 @@ export default {
     LogoGithub,
     NGrid,
     NGridItem,
+    NLayout,
+    NLayoutHeader,
   },
   methods: {
     openGitProject() {
@@ -70,6 +89,10 @@ export default {
           name: "Week 2",
           component: "Week2",
         },
+        {
+          name: "Week 3",
+          component: "Week3",
+        },
       ],
       currentTabComponent: null,
     };
@@ -78,6 +101,9 @@ export default {
 </script>
 
 <style>
+.icon-align {
+  vertical-align: middle;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

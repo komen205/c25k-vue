@@ -5,10 +5,10 @@
 </template>
 
 <script>
-import Timer from "../Timer.vue";
+import Timer from "../TimerItem.vue";
 
 export default {
-  name: "Week1",
+  name: "Week-3",
   components: {
     Timer,
   },
@@ -17,17 +17,15 @@ export default {
   data() {
     return {
       scheduledTasks: [
+        { fn: "walk fast", args: 2 },
         { fn: "run", args: 2 },
         { fn: "rest", args: 2 },
+        { fn: "run", args: 3 },
+        { fn: "rest", args: 3 },
         { fn: "run", args: 2 },
         { fn: "rest", args: 2 },
-        { fn: "run", args: 2 },
-        { fn: "rest", args: 2 },
-        { fn: "run", args: 2 },
-        { fn: "rest", args: 2 },
-        { fn: "run", args: 2 },
-        { fn: "rest", args: 2 },
-        { fn: "run", args: 2 },
+        { fn: "run", args: 3 },
+        { fn: "rest", args: 3 },
       ],
     };
   },

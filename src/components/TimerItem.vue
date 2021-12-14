@@ -27,7 +27,7 @@ import moment from "moment";
 import { NButton, NSpace } from "naive-ui";
 
 export default {
-  name: "Timer",
+  name: "TimerItem",
   components: {
     NButton,
     NSpace,

@@ -11,7 +11,7 @@
     "@chenfengyuan/vue-countdown": "^2.0.0-rc",
     "@smithalan2/vue-countdown": "^1.0.2",
     "@vicons/ionicons5": "^0.11.0",
-    "core-js": "^3.6.5",
+    "core-js": "^3.19.3",
     "moment": "^2.29.1",
     "moment-range": "^4.0.2",
     "progressbar.js": "^1.1.0",
@@ -26,14 +26,14 @@
   "devDependencies": {
     "@vicons/fluent": "^0.11.0",
     "@vicons/material": "^0.11.0",
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.2.22",
+    "@vue/cli-plugin-babel": "~4.5.15",
+    "@vue/cli-plugin-eslint": "~4.5.15",
+    "@vue/cli-service": "~4.5.15",
+    "@vue/compiler-sfc": "^3.2.26",
     "babel-eslint": "^10.1.0",
-    "eslint-plugin-vue": "^7.0.0",
-    "naive-ui": "^2.21.5",
-    "node-sass": "^6.0.1"
+    "eslint-plugin-vue": "^8.2.0",
+    "naive-ui": "^2.22.0",
+    "node-sass": "^7.0.0"
   },
   "eslintConfig": {
     "root": true,
