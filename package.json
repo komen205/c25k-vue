@@ -18,6 +18,8 @@
     "vue": "^3.2.22",
     "vue-moment": "^4.1.0",
     "vue-timers": "^2.0.4",
+    "vue2-circle-progress": "^1.2.3",
+    "vue3-radial-progress": "^1.0.6",
     "vue3-timepicker": "^1.0.0-beta.2",
     "vuejs-countdown-timer": "^2.1.3"
   },

@@ -2,8 +2,16 @@
   <div>
     <div>
       <h1>Current state:</h1>
-      {{ timeRemainingToEndFormatted }}
-      {{ status }}
+      <n-space justify="center">
+        <RadialProgress
+          :diameter="200"
+          :completed-steps="completedSteps"
+          :total-steps="totalSteps"
+        >
+          {{ status }}
+        </RadialProgress>
+      </n-space>
+
       <h2>Time elapsed:</h2>
       {{ timeElapsedFormatted }}
     </div>
@@ -14,6 +22,7 @@
 </template>
 
 <script>
+import RadialProgress from "vue3-radial-progress";
 import moment from "moment";
 import { NButton, NSpace } from "naive-ui";
 
@@ -22,6 +31,8 @@ export default {
   components: {
     NButton,
     NSpace,
+    RadialProgress,
+
     // Component here
   },
   // *----------------------- P r o p s ----------------------------------------------------------
@@ -29,6 +40,8 @@ export default {
   // *----------------------- D a t a -----------------------------------------------------------
   data() {
     return {
+      completedSteps: 0,
+      totalSteps: 0,
       timeRemainingToEnd: 0,
       startTime: 0,
       timeElapsed: 0,
@@ -73,13 +86,15 @@ export default {
           clearInterval(timer);
           this.status = "none";
         }
-
+        this.completedSteps += 1;
         //format diff to minutes:seconds
         this.timeRemainingToEnd = moment.utc(diff.asMilliseconds());
       }, interval);
     },
     startController() {
       this.startTime = moment();
+      console.log("test");
+
       const time = setInterval(() => {
         this.timeElapsed = moment().diff(this.startTime);
         if (this.tasks.length === 0) {
@@ -88,16 +103,20 @@ export default {
           clearInterval(time);
           return;
         }
+
         if (this.status === "none") {
+          this.completedSteps = 1;
           const { fn, args } = this.tasks.shift();
+          this.totalSteps = args * 60;
           this.status = fn;
           this.startTimer(args);
           this.textToSpeech(fn);
         }
       }, 1000);
-    }
+    },
   },
   // *----------------------- W a t c h ---------------------------------------------------------
   watch: {},
 };
 </script>
+<style scoped></style>
